@@ -6,14 +6,21 @@ import android.app.FragmentTransaction;
 import android.support.annotation.IdRes;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.List;
 
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    private RecyclerView recyclerView; // Layout's recyclerview
+    private List ItemList = new ArrayList<>();
+    private MainAdapter mainAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +32,12 @@ public class MainActivity extends AppCompatActivity {
         final mainFragmentb mainfragb = new mainFragmentb();
         final FragmentManager fragmentManager = getFragmentManager();
         final View fragholder = findViewById(R.id.mainFragment);
+        ItemList.add("Hello");
+        recyclerView = (RecyclerView)fragholder.findViewById(R.id.MainRview);
+      //  recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mainAdapter = new MainAdapter(ItemList,this);
+        recyclerView.setAdapter(mainAdapter);
+        mainAdapter.notifyDataSetChanged();
 
         BottomBar bottomBar = (BottomBar) findViewById(R.id.bottomBar);
         bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
@@ -50,6 +63,11 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+
+    }
+
+    @Override
+    public void onClick(View v) {
 
     }
 }
