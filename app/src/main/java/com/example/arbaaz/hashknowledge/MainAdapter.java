@@ -15,12 +15,12 @@ import java.util.List;
  */
 
 public class MainAdapter extends RecyclerView.Adapter<MyViewHolder>{
-    private static final String TAG = "StockAdapter";
-   // private List<Official> OfficialsList;
+    private static final String TAG = "MainAdapter";
+    private List<Post> PList;
     private MainActivity mainAct;
-
-    public MainAdapter(List officialsList, MainActivity mainAct) {
-
+private mainFragment mainFrag;
+    public MainAdapter(List<Post> officialsList, MainActivity mainAct) {
+        PList = officialsList;
         this.mainAct = mainAct;
     }
 
@@ -29,7 +29,7 @@ public class MainAdapter extends RecyclerView.Adapter<MyViewHolder>{
         Log.d(TAG, "onCreateViewHolder: MAKING NEW");
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.temp_list_row, parent, false);
-        itemView.setOnClickListener(mainAct);
+        itemView.setOnClickListener(mainFrag);
 
 
         return new MyViewHolder(itemView);
@@ -37,13 +37,13 @@ public class MainAdapter extends RecyclerView.Adapter<MyViewHolder>{
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-      //  Official official = OfficialsList.get(position);
-       // holder.ViewHolderTitle.setText(official.getTitle());
+        Post p = PList.get(position);
+        //holder.ViewHolderTitle.setText(p.getTitle());
         //holder.ViewHolderName.setText(official.getName()+" ("+official.getParty()+")");
     }
 
     @Override
     public int getItemCount() {
-        return 1;
+        return PList.size();
     }
 }

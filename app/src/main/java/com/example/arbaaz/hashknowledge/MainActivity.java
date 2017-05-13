@@ -18,8 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    private RecyclerView recyclerView; // Layout's recyclerview
-    private List ItemList = new ArrayList<>();
+     // Layout's recyclerview
+
     private MainAdapter mainAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,36 +28,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
 
-        final mainFragment mainfrag = new mainFragment();
+        final mainFragment mainfrag = new mainFragment(this);
+       // mainfrag.TAG = "main";
         final mainFragmentb mainfragb = new mainFragmentb();
+       // mainfragb.TAG = "b";
         final FragmentManager fragmentManager = getFragmentManager();
         final View fragholder = findViewById(R.id.mainFragment);
-        ItemList.add("Hello");
-        recyclerView = (RecyclerView)fragholder.findViewById(R.id.MainRview);
-      //  recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mainAdapter = new MainAdapter(ItemList,this);
-        recyclerView.setAdapter(mainAdapter);
-        mainAdapter.notifyDataSetChanged();
+        fragmentManager.beginTransaction().add(R.id.mainFragment,mainfrag).commit();
+        fragmentManager.beginTransaction().add(R.id.mainFragment,mainfragb).commit();
+
 
         BottomBar bottomBar = (BottomBar) findViewById(R.id.bottomBar);
         bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelected(@IdRes int tabId) {
                 if (tabId == R.id.tab_favorites) {
-                    FragmentTransaction transaction = fragmentManager.beginTransaction();
-                    //getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.mainFragment)).commit();
-                    transaction.replace(R.id.mainFragment, mainfrag);
-                    transaction.addToBackStack(null);
 
-                    // Commit the transaction
-                    transaction.commit();
+                    fragmentManager.beginTransaction().show(mainfrag).commit();
+                    fragmentManager.beginTransaction().hide(mainfragb).commit();
                 }else if (tabId == R.id.tab_friends) {
-                    FragmentTransaction transaction = fragmentManager.beginTransaction();
-                    transaction.replace(R.id.mainFragment, mainfragb);
-                    transaction.addToBackStack(null);
 
-                    // Commit the transaction
-                    transaction.commit();
+                    fragmentManager.beginTransaction().show(mainfragb).commit();
+
+                    fragmentManager.beginTransaction().hide(mainfrag).commit();
+
                 }
             }
         });
